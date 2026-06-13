@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modlist Oficial - CaliCraft Network</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #151d30;
+            --bg-input: #1e2942;
+            --accent-emerald: #10b981;
+            /* Verde Esmeralda Minecraft */
+            --accent-glow: rgba(16, 185, 129, 0.4);
+
+            /* Colores de Categorías Principales */
+            --color-cliente: #3b82f6;
+            --color-servidor: #ef4444;
+            --color-compartido: #a855f7;
+
+            /* Texto */
+            --text-title: #ffffff;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Encabezado Premium */
+        header {
+            position: relative;
+            background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)),
+                url('https://www.minecraft.net/content/dam/games/minecraft/key-art/Games_Subnav_Minecraft-Wild-Update.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 5rem 1rem 4rem 1rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-emerald);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-title);
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            margin-bottom: 0.5rem;
+        }
+
+        header h1 span {
+            color: var(--accent-emerald);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .badge-version {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--accent-emerald);
+            color: var(--accent-emerald);
+            padding: 0.35rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* Dashboard de Estadísticas */
+        .stats-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 1.25rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-card .number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-card.total .number {
+            color: var(--accent-emerald);
+        }
+
+        .stat-card.client .number {
+            color: var(--color-cliente);
+        }
+
+        .stat-card.server .number {
+            color: var(--color-servidor);
+        }
+
+        .stat-card.shared .number {
+            color: var(--color-compartido);
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Sección de Controles y Filtros */
+        .controls-wrapper {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1.1rem 1.1rem 1.1rem 3.2rem;
+            border-radius: 1rem;
+            border: 2px solid transparent;
+            background: var(--bg-input);
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-emerald);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--bg-input);
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            background: #273554;
+            transform: translateY(-1px);
+        }
+
+        .tab-btn.active[data-cat="all"] {
+            background: var(--accent-emerald);
+            color: var(--bg-main);
+        }
+
+        .tab-btn.active[data-cat="cliente"] {
+            background: var(--color-cliente);
+            color: white;
+        }
+
+        .tab-btn.active[data-cat="servidor"] {
+            background: var(--color-servidor);
+            color: white;
+        }
+
+        .tab-btn.active[data-cat="compartido"] {
+            background: var(--color-compartido);
+            color: white;
+        }
+
+        /* Grid Dinámico de Mods */
+        .mod-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .mod-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 1.75rem;
+            border-radius: 1.25rem;
+            border-top: 4px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .mod-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Estilos laterales/superiores según ambiente */
+        .mod-card.cliente {
+            border-top-color: var(--color-cliente);
+        }
+
+        .mod-card.servidor {
+            border-top-color: var(--color-servidor);
+        }
+
+        .mod-card.compartido {
+            border-top-color: var(--color-compartido);
+        }
+
+        .mod-card-top {
+            margin-bottom: 1.25rem;
+        }
+
+        .mod-name {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-title);
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.3px;
+        }
+
+        .mod-file {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+            word-break: break-all;
+            margin-top: 0.25rem;
+        }
+
+        /* Badges de Subcategorías Avanzadas */
+        .subcat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 0.25rem 0.65rem;
+            border-radius: 0.5rem;
+            background: rgba(255, 255, 255, 0.06);
+            color: #cbd5e1;
+            margin-bottom: 0.75rem;
+        }
+
+        .mod-card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Tags principales */
+        .tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 0.3rem 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .tag-cliente {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--color-cliente);
+        }
+
+        .tag-servidor {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--color-servidor);
+        }
+
+        .tag-compartido {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--color-compartido);
+        }
+
+        /* Mensaje No Results */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--bg-card);
+            border-radius: 1.25rem;
+            color: var(--text-muted);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animaciones suaves */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mod-card {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            .controls-wrapper {
+                padding: 1.25rem;
+            }
+        }
+
+        /* ================= VISTA DE LISTA COMPACTA & BOTÓN COPIAR ================= */
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+        }
+
+        .view-toggle-group {
+            display: flex;
+            background: var(--bg-input);
+            padding: 0.3rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .toggle-btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 0.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .toggle-btn:hover {
+            color: var(--text-main);
+        }
+
+        .toggle-btn.active {
+            background: var(--bg-card);
+            color: var(--accent-emerald);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .mod-file-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            border-radius: 0.4rem;
+            padding: 0.25rem 0.45rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-emerald);
+            color: var(--bg-main);
+            border-color: var(--accent-emerald);
+        }
+
+        .copy-btn.copied {
+            background: var(--accent-emerald) !important;
+            color: var(--bg-main) !important;
+            border-color: var(--accent-emerald) !important;
+        }
+
+        /* Modificaciones estructurales del Grid para la Vista de Lista */
+        .mod-grid.list-view {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .mod-grid.list-view .mod-card {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-top: none;
+            border-left: 4px solid transparent;
+            border-radius: 0.75rem;
+            gap: 1.5rem;
+        }
+
+        .mod-grid.list-view .mod-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .mod-grid.list-view .mod-card.cliente {
+            border-left-color: var(--color-cliente);
+        }
+
+        .mod-grid.list-view .mod-card.servidor {
+            border-left-color: var(--color-servidor);
+        }
+
+        .mod-grid.list-view .mod-card.compartido {
+            border-left-color: var(--color-compartido);
+        }
+
+        .mod-grid.list-view .mod-card-top {
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex: 1;
+        }
+
+        .mod-grid.list-view .subcat-badge {
+            margin-bottom: 0;
+            min-width: 145px;
+            justify-content: center;
+        }
+
+        .mod-grid.list-view .mod-name {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+            flex: 1;
+        }
+
+        .mod-grid.list-view .mod-meta {
+            margin-top: 0;
+        }
+
+        .mod-grid.list-view .mod-file-wrapper {
+            margin-top: 0;
+        }
+
+        .mod-grid.list-view .mod-card-bottom {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+            width: auto;
+        }
+
+        /* Responsividad intermedia para envolver los controles */
+        @media (max-width: 992px) {
+            .filter-container {
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .filter-tabs {
+                justify-content: center;
+            }
+        }
+
+        /* Adaptación móvil total para la lista compacta */
+        @media (max-width: 768px) {
+            .mod-grid.list-view .mod-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+                padding: 1.25rem;
+                border-left: none;
+                border-top: 4px solid transparent;
+            }
+
+            .mod-grid.list-view .mod-card.cliente {
+                border-top-color: var(--color-cliente);
+            }
+
+            .mod-grid.list-view .mod-card.servidor {
+                border-top-color: var(--color-servidor);
+            }
+
+            .mod-grid.list-view .mod-card.compartido {
+                border-top-color: var(--color-compartido);
+            }
+
+            .mod-grid.list-view .mod-card-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .mod-grid.list-view .subcat-badge {
+                justify-content: flex-start;
+                min-width: auto;
+            }
+
+            .mod-grid.list-view .mod-card-bottom {
+                width: 100%;
+                justify-content: space-between;
+                padding-top: 0.75rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        /* ================= BOTÓN DE MODRINTH Y AJUSTES DE ACCIONES ================= */
+        .mod-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* El botón premium con el color oficial de Modrinth */
+        .modrinth-btn {
+            background: rgba(27, 217, 106, 0.06);
+            border: 1px solid rgba(27, 217, 106, 0.2);
+            color: #1bd96a;
+            /* Verde brillante de la marca Modrinth */
+            border-radius: 0.5rem;
+            padding: 0.3rem 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .modrinth-btn:hover {
+            background: #00af5c;
+            /* Color de acento sólido al pasar el mouse */
+            color: #0b0f19;
+            /* Fondo oscuro para contraste */
+            border-color: #00af5c;
+            box-shadow: 0 0 12px rgba(27, 217, 106, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .modrinth-icon {
+            width: 13px;
+            height: 13px;
+            fill: currentColor;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Ajuste de empaquetado para mantener el nombre del archivo separado de los botones */
+        .mod-file-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.3rem;
+        }
+
+        /* En la vista de lista compacta, los botones se alinean horizontalmente al lado del archivo */
+        .mod-grid.list-view .mod-file-wrapper {
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .mod-grid.list-view .mod-actions {
+            margin-top: 0;
+        }
+
+        .modrinth-icon {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            display: inline-block;
+            vertical-align: middle;
+            flex-shrink: 0;
+            /* Evita que el SVG se deforme en pantallas pequeñas */
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1><span>CaliCraft</span> Modlist</h1>
+        <p class="subtitle">Descubre los componentes y características tecnológicas integradas en la Network</p>
+        <div class="badge-version"></i> Minecraft 1.21.1 — NeoForge</div>
+    </header>
+
+    <div class="container">
+
+        <div class="stats-dashboard">
+            <div class="stat-card total">
+                <div class="number" id="statTotal">0</div>
+                <div class="label">Mods Totales</div>
+            </div>
+            <div class="stat-card client">
+                <div class="number" id="statClient">0</div>
+                <div class="label">Lado Cliente</div>
+            </div>
+            <div class="stat-card server">
+                <div class="number" id="statServer">0</div>
+                <div class="label">Solo Servidor</div>
+            </div>
+            <div class="stat-card shared">
+                <div class="number" id="statShared">0</div>
+                <div class="label">Compartidos</div>
+            </div>
+        </div>
+
+        <div class="controls-wrapper">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="modSearch" placeholder="Buscar por nombre de mod o archivo .jar...">
+            </div>
+            <div class="filter-container">
+                <div class="filter-tabs">
+                    <button class="tab-btn active" data-cat="all" onclick="filterCategory('all')">
+                        <i class="fas fa-cubes"></i> Todos
+                    </button>
+                    <button class="tab-btn" data-cat="cliente" onclick="filterCategory('cliente')">
+                        <i class="fas fa-desktop"></i> Requeridos en Cliente
+                    </button>
+                    <button class="tab-btn" data-cat="servidor" onclick="filterCategory('servidor')">
+                        <i class="fas fa-server"></i> Solo Servidor
+                    </button>
+                    <button class="tab-btn" data-cat="compartido" onclick="filterCategory('compartido')">
+                        <i class="fas fa-network-wired"></i> Compartidos (Ambos lados)
+                    </button>
+                </div>
+
+                <div class="view-toggle-group">
+                    <button class="toggle-btn active" id="viewGrid" onclick="changeView('grid')">
+                        <i class="fas fa-th-large"></i> Rejilla
+                    </button>
+                    <button class="toggle-btn" id="viewList" onclick="changeView('list')">
+                        <i class="fas fa-list"></i> Lista Compacta
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mod-grid" id="modGrid">
+        </div>
+    </div>
+
+    <script>
+        // Mapeo exhaustivo y sincronizado de los componentes de la CaliCraft Network
+        const mods = [
+            // ==================== LADO CLIENTE (39) ====================
+            { name: "Ambient Environment", type: "cliente", subcat: "Visual/Estética", file: "AmbientEnvironment-neoforge-1.21.1-18.0.0.2.jar" },
+            { name: "Ambient Sounds 6", type: "cliente", subcat: "Inmersión Sonora", file: "AmbientSounds_NEOFORGE_v6.3.8_mc1.21.1.jar" },
+            { name: "Better Ping Display", type: "cliente", subcat: "Interfaz/UI", file: "BetterPingDisplay-1.21.1-1.1.jar" },
+            { name: "Camera Overhaul", type: "cliente", subcat: "Visual/Estética", file: "CameraOverhaul-v2.1.1-neoforge+mc[1.21-1.21.1].jar" },
+            { name: "CraftPresence (Discord RPC)", type: "cliente", subcat: "Integración Social", file: "CraftPresence-2.7.1+1.21.1-neoforge.jar" },
+            { name: "Custom Player Models", type: "cliente", subcat: "Visual/Estética", file: "CustomPlayerModels-1.21-0.6.26a.jar" },
+            { name: "Drip Sounds", type: "cliente", subcat: "Inmersión Sonora", file: "Drip Sounds-0.5.2+1.21.8-NeoForge.jar" },
+            { name: "EMI Professions", type: "cliente", subcat: "Interfaz/Guías", file: "EMIProfessions-neoforge-1.21.1-1.0.3.jar" },
+            { name: "Immersive UI", type: "cliente", subcat: "Interfaz/UI", file: "ImmersiveUI-NEOFORGE-0.3.3+1.21.1.jar" },
+            { name: "Traveler's Titles", type: "cliente", subcat: "Exploración/RPG", file: "TravelersTitles-1.21.1-NeoForge-5.1.3.jar" },
+            { name: "UniLib", type: "cliente", subcat: "Librería", file: "UniLib-1.2.1+1.21.1-neoforge.jar" },
+            { name: "Yung's Menu Tweaks", type: "cliente", subcat: "Interfaz/UI", file: "YungsMenuTweaks-1.21.1-NeoForge-2.1.2.jar" },
+            { name: "Distraction Free Recipes", type: "cliente", subcat: "Interfaz/UI", file: "distraction_free_recipes-neoforge-1.2.1-1.21.1.jar" },
+            { name: "Drippy Loading Screen", type: "cliente", subcat: "Interfaz/UI", file: "drippyloadingscreen_neoforge_3.1.2_MC_1.21.1.jar" },
+            { name: "Dynamic FPS", type: "cliente", subcat: "Optimización", file: "dynamic-fps-3.11.4+minecraft-1.21.0-neoforge.jar" },
+            { name: "Elytra Physics", type: "cliente", subcat: "Movilidad/Físicas", file: "elytra_physics-neoforge-2.3_mc1.20.5-1.21.1.jar" },
+            { name: "EMI Let's Do Compat", type: "cliente", subcat: "Interfaz/Guías", file: "emi-letsdo-compat-2.0.1+1.21.1+neoforge.jar" },
+            { name: "EMI Enchanting", type: "cliente", subcat: "Interfaz/Guías", file: "emi_enchanting-0.1.2+1.21+neoforge.jar" },
+            { name: "Enchantment Descriptions", type: "cliente", subcat: "Interfaz/Guías", file: "enchdesc-neoforge-1.21.1-21.1.9.jar" },
+            { name: "Extra Mod Integrations", type: "cliente", subcat: "Interfaz/Guías", file: "extra-mod-integrations-all-neoforge-1.0.3+1.21.1.jar" },
+            { name: "Falling Leaves", type: "cliente", subcat: "Visual/Estética", file: "fallingleaves-1.21.1-2.5.1.jar" },
+            { name: "Fancy Entity Renderer", type: "cliente", subcat: "Rendimiento/Gráficos", file: "fancy-entity-renderer-neoforge-1.21-0.4.7.jar" },
+            { name: "FancyMenu Customizer", type: "cliente", subcat: "Interfaz/UI", file: "fancymenu_neoforge_3.9.1_MC_1.21.1.jar" },
+            { name: "Immersive Armor HUD", type: "cliente", subcat: "Interfaz/UI", file: "immersivearmorhud-neoforge-1.0.1-1.21.1.jar" },
+            { name: "Immersive Hotbar", type: "cliente", subcat: "Interfaz/UI", file: "immersivehotbar-1.1.1-neoforge-1.21-1.21.1.jar" },
+            { name: "Immersive Lanterns", type: "cliente", subcat: "Visual/Estética", file: "immersivelanterns-neoforge-1.0.6-1.21.1.jar" },
+            { name: "Immersive Tips", type: "cliente", subcat: "Interfaz/UI", file: "immersivetips-neoforge-1.0.2-1.21.1.jar" },
+            { name: "Iris Shaders", type: "cliente", subcat: "Rendimiento/Gráficos", file: "iris-neoforge-1.8.12+mc1.21.1.jar" },
+            { name: "Konkrete UI Core", type: "cliente", subcat: "Librería", file: "konkrete_neoforge_1.9.9_MC_1.21.jar" },
+            { name: "MCEF Embedded Browser", type: "cliente", subcat: "Librería", file: "mcef_neoforge_2.2.0_MC_1.21.1.jar" },
+            { name: "Melody Audio API", type: "cliente", subcat: "Librería", file: "melody_neoforge_1.0.10_MC_1.21.jar" },
+            { name: "Physics Mod (Físicas)", type: "cliente", subcat: "Movilidad/Físicas", file: "physics-mod-3.0.29-mc-1.21.1-neoforge.jar" },
+            { name: "Reese's Sodium Options", type: "cliente", subcat: "Optimización", file: "reeses-sodium-options-neoforge-1.8.3+mc1.21.4.jar" },
+            { name: "Sodium Rendering Engine", type: "cliente", subcat: "Optimización", file: "sodium-neoforge-0.6.13+mc1.21.1.jar" },
+            { name: "Sodium Dynamic Lights", type: "cliente", subcat: "Visual/Estética", file: "sodiumdynamiclights-neoforge-1.0.10-1.21.1.jar" },
+            { name: "Sodium Options API", type: "cliente", subcat: "Librería", file: "sodiumoptionsapi-neoforge-1.0.10-1.21.1.jar" },
+            { name: "Sounds Upgrade Pack", type: "cliente", subcat: "Inmersión Sonora", file: "sounds-2.4.22+lts+1.21.1-neoforge.jar" },
+            { name: "Spiffy HUD Mod", type: "cliente", subcat: "Interfaz/UI", file: "spiffyhud_neoforge_3.1.2_MC_1.21.1.jar" },
+            { name: "TIMM Menu Music Overhaul", type: "cliente", subcat: "Inmersión Sonora", file: "timm-1.1-neoforge-1.21.jar" },
+
+            // ==================== SOLO SERVIDOR (39) ====================
+            { name: "Chunky Pre-generator", type: "servidor", subcat: "Rendimiento Server", file: "Chunky-NeoForge-1.4.23.jar" },
+            { name: "Clumps (XP Agrupada)", type: "servidor", subcat: "Rendimiento Server", file: "Clumps-neoforge-1.21.1-19.0.0.1.jar" },
+            { name: "When Dungeons Arise Core", type: "servidor", subcat: "Exploración/Estructuras", file: "DungeonsArise-1.21.1-2.1.68-release.jar" },
+            { name: "When Dungeons Arise: Seven Seas", type: "servidor", subcat: "Exploración/Estructuras", file: "DungeonsAriseSevenSeas-1.21.x-1.0.4-neoforge.jar" },
+            { name: "Leaves Be Gone (Decay)", type: "servidor", subcat: "Rendimiento Server", file: "LeavesBeGone-v21.1.1-1.21.1-NeoForge.jar" },
+            { name: "Puzzles Lib Base", type: "servidor", subcat: "Librería Server", file: "PuzzlesLib-v21.1.51-1.21.1-NeoForge.jar" },
+            { name: "AFK Sleep Mechanics", type: "servidor", subcat: "Mecánicas/Server", file: "afk-sleep-1.3.2.jar" },
+            { name: "Anvil Restoration System", type: "servidor", subcat: "Mecánicas/Server", file: "anvilrestoration-1.21.1-2.4.jar" },
+            { name: "Bottled Air Utility", type: "servidor", subcat: "Mecánicas/Server", file: "bottledair-1.21.1-2.5.jar" },
+            { name: "Collective API Layer", type: "servidor", subcat: "Librería Server", file: "collective-1.21.1-8.25.jar" },
+            { name: "Configurable Extra Mob Drops", type: "servidor", subcat: "Mecánicas/Server", file: "configurableextramobdrops-1.21.1-3.7.jar" },
+            { name: "Crying Portals Handler", type: "servidor", subcat: "Mecánicas/Server", file: "cryingportals-1.21.1-2.8.jar" },
+            { name: "Detect AFK Tools", type: "servidor", subcat: "Utilidades Server", file: "detect-afk-1.2.2.jar" },
+            { name: "Dismount Entity Control", type: "servidor", subcat: "Mecánicas/Server", file: "dismountentity-1.21.1-3.6.jar" },
+            { name: "Double Doors Mechanic", type: "servidor", subcat: "Mecánicas/Server", file: "doubledoors-1.21.1-7.2.jar" },
+            { name: "Dragon Drops Elytra Fix", type: "servidor", subcat: "Mecánicas/Server", file: "dragondropselytra-1.21.1-3.6.jar" },
+            { name: "Easy Elytra Takeoff", type: "servidor", subcat: "Mecánicas/Server", file: "easyelytratakeoff-1.21.1-4.5.jar" },
+            { name: "Fish on the Line Notifier", type: "servidor", subcat: "Mecánicas/Server", file: "fishontheline-1.21.1-3.5.jar" },
+            { name: "Grass Seeds Drop Engine", type: "servidor", subcat: "Mecánicas/Server", file: "grassseeds-1.21.1-3.4.jar" },
+            { name: "Healing Campfire Logic", type: "servidor", subcat: "Mecánicas/Server", file: "healingcampfire-1.21.1-6.2.jar" },
+            { name: "Immersive Optimization Core", type: "servidor", subcat: "Optimización Core", file: "immersive_optimization-neoforge-1.21-0.1.6.jar" },
+            { name: "Immersive Snow Accumulation", type: "servidor", subcat: "Mundo/Ambiente", file: "immersivesnow-1.21.1-1.4.0.jar" },
+            { name: "Infinite Trading System", type: "servidor", subcat: "Mecánicas/Server", file: "infinitetrading-1.21.1-5.0.jar" },
+            { name: "Inventory Totem Safeguard", type: "servidor", subcat: "Mecánicas/Server", file: "inventorytotem-1.21.1-3.4.jar" },
+            { name: "Invincible Admin Utility", type: "servidor", subcat: "Utilidades Server", file: "invincible-21.15.8.1-mc1.21.1-neoforge.jar" },
+            { name: "Just Mob Heads Collection", type: "servidor", subcat: "Mecánicas/Server", file: "justmobheads-1.21.1-9.1.jar" },
+            { name: "The Lost Cities Gen", type: "servidor", subcat: "Exploración/Mundo", file: "lostcities-1.21-8.3.10.jar" },
+            { name: "Lost Cities Modern Tweaks", type: "servidor", subcat: "Exploración/Mundo", file: "lostcities-modern-tweaks-v2.0.7.jar" },
+            { name: "Luki's Ancient Cities Build", type: "servidor", subcat: "Exploración/Mundo", file: "lukis-ancient-cities-v1.2.jar" },
+            { name: "NeoVelocity Network Engine", type: "servidor", subcat: "Optimización Core", file: "neovelocity-1.2.6+1.21.1-1.21.5.jar" },
+            { name: "Nether Portal Spread Control", type: "servidor", subcat: "Mecánicas/Server", file: "netherportalspread-1.21.1-8.4.jar" },
+            { name: "No Hostiles Around Campfire", type: "servidor", subcat: "Mecánicas/Server", file: "nohostilesaroundcampfire-1.21.1-7.2.jar" },
+            { name: "Server Sleep Controller", type: "servidor", subcat: "Utilidades Server", file: "serversleep-datapack2.jar" },
+            { name: "Skeleton Horse Natural Spawn", type: "servidor", subcat: "Mecánicas/Server", file: "skeletonhorsespawn-1.21.1-4.1.jar" },
+            { name: "Snowballs Freeze Mobs Rule", type: "servidor", subcat: "Mecánicas/Server", file: "snowballsfreezemobs-1.21.1-3.8.jar" },
+            { name: "Starter Kit Payload Manager", type: "servidor", subcat: "Utilidades Server", file: "starterkit-1.21.1-8.1.jar" },
+            { name: "Steve's Realistic Sleep", type: "servidor", subcat: "Mecánicas/Server", file: "stevesrealisticsleep-neoforge-1.11.2+mc1.21-1.21.1.jar" },
+            { name: "Dynamic Villager Names", type: "servidor", subcat: "Mecánicas/Server", file: "villagernames-1.21.1-8.5.jar" },
+            { name: "Zombie Horse Natural Spawn", type: "servidor", subcat: "Mecánicas/Server", file: "zombiehorsespawn-1.21.1-5.2.jar" },
+
+            // ==================== COMPARTIDOS / AMBOS LADOS (208) ====================
+            { name: "Advanced Loot Info", type: "compartido", subcat: "Interfaz/Guías", file: "AdvancedLootInfo-neoforge-1.21.1-1.12.0.jar" },
+            { name: "Biomes O' Plenty", type: "compartido", subcat: "Biomas/Mundo", file: "BiomesOPlenty-neoforge-1.21.1-21.1.0.13.jar" },
+            { name: "Create Encased Blocks", type: "compartido", subcat: "Tecnología/Mecanismos", file: "Create Encased-1.21.1-1.8.1-ht1.jar" },
+            { name: "Create Dragons Plus", type: "compartido", subcat: "Tecnología/Mecanismos", file: "CreateDragonsPlus-1.11.2b.jar" },
+            { name: "Create Numismatics (Economy)", type: "compartido", subcat: "Tecnología/Economía", file: "CreateNumismatics-1.0.20+neoforge-mc1.21.1.jar" },
+            { name: "CreativeCore Infrastructure", type: "compartido", subcat: "Librería de Ejecución", file: "CreativeCore_NEOFORGE_v2.13.41_mc1.21.1.jar" },
+            { name: "Create Design n' Decor", type: "compartido", subcat: "Decoración", file: "Design-n-Decor-1.21.1-2.2b.jar" },
+            { name: "Design n' Desires Suite", type: "compartido", subcat: "Decoración", file: "DnDesires-1.21.1-2.3a-BETA.jar" },
+            { name: "GlitchCore Library", type: "compartido", subcat: "Librería de Ejecución", file: "GlitchCore-neoforge-1.21.1-2.1.0.2.jar" },
+            { name: "Immersive Vehicles (MTS)", type: "compartido", subcat: "Transporte/Vehículos", file: "Immersive Vehicles-1.21.1-24.0.0.jar" },
+            { name: "Immersive Engineering Core", type: "compartido", subcat: "Tecnología/Energía", file: "ImmersiveEngineering-1.21.1-12.4.2-194.jar" },
+            { name: "MTS Official Vehicle Pack", type: "compartido", subcat: "Transporte/Vehículos", file: "MTS Official Pack-1.21.1-V29.jar" },
+            { name: "OctoLib Engine", type: "compartido", subcat: "Librería de Ejecución", file: "OctoLib-NEOFORGE-0.6.2+1.21.jar" },
+            { name: "ParCool (Parkour Sistema)", type: "compartido", subcat: "Movilidad/Físicas", file: "ParCool-1.21.1-3.4.3.3-NF.jar" },
+            { name: "Ping Wheel System", type: "compartido", subcat: "Comunicación/Audio", file: "Ping-Wheel-1.12.2-neoforge-1.21.1.jar" },
+            { name: "Serene Seasons (Estaciones)", type: "compartido", subcat: "Mundo/Ambiente", file: "SereneSeasons-neoforge-1.21.1-10.1.0.3.jar" },
+            { name: "Simply Tooltips", type: "compartido", subcat: "Interfaz/Guías", file: "SimplyTooltips-neoforge-0.1.3.jar" },
+            { name: "TerraBlender Gen", type: "compartido", subcat: "Biomas/Mundo", file: "TerraBlender-neoforge-1.21.1-4.1.0.8.jar" },
+            { name: "Yung's API Core", type: "compartido", subcat: "Librería de Ejecución", file: "YungsApi-1.21.1-NeoForge-5.1.6.jar" },
+            { name: "Yung's Better Desert Temples", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsBetterDesertTemples-1.21.1-NeoForge-4.1.5.jar" },
+            { name: "Yung's Better Dungeons", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsBetterDungeons-1.21.1-NeoForge-5.1.4.jar" },
+            { name: "Yung's Better End Island", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsBetterEndIsland-1.21.1-NeoForge-3.1.2.jar" },
+            { name: "Yung's Better Jungle Temples", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsBetterJungleTemples-1.21.1-NeoForge-3.1.2.jar" },
+            { name: "Yung's Better Mineshafts", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsBetterMineshafts-1.21.1-NeoForge-5.1.1.jar" },
+            { name: "Yung's Better Nether Fortresses", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsBetterNetherFortresses-1.21.1-NeoForge-3.1.5.jar" },
+            { name: "Yung's Better Ocean Monuments", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsBetterOceanMonuments-1.21.1-NeoForge-4.1.2.jar" },
+            { name: "Yung's Better Strongholds", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsBetterStrongholds-1.21.1-NeoForge-5.1.3.jar" },
+            { name: "Yung's Better Witch Huts", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsBetterWitchHuts-1.21.1-NeoForge-4.1.1.jar" },
+            { name: "Yung's Bridges Expansion", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsBridges-1.21.1-NeoForge-5.1.1.jar" },
+            { name: "Yung's Cave Biomes Gen", type: "compartido", subcat: "Biomas/Mundo", file: "YungsCaveBiomes-1.21.1-NeoForge-3.1.1.jar" },
+            { name: "Yung's Extras Module", type: "compartido", subcat: "Exploración/Estructuras", file: "YungsExtras-1.21.1-NeoForge-5.1.1.jar" },
+            { name: "SecurityCraft Base", type: "compartido", subcat: "Seguridad/Defensa", file: "[1.21.1] SecurityCraft v1.10.1.jar" },
+            { name: "IMST Framework", type: "compartido", subcat: "Librería de Ejecución", file: "[neoforge]imst-2.2.1c.jar" },
+            { name: "Accessories Inventory API", type: "compartido", subcat: "Equipamiento/Progreso", file: "accessories-neoforge-1.1.0-beta.53+1.21.1.jar" },
+            { name: "Accessories Compatibility Layer", type: "compartido", subcat: "Librería de Ejecución", file: "accessories_compat_layer-neoforge-0.1.12+1.21.1.jar" },
+            { name: "AddonsLib Framework", type: "compartido", subcat: "Librería de Ejecución", file: "addonslib-neoforge-1.21.1-1.10.jar" },
+            { name: "Advanced Netherite Tiers", type: "compartido", subcat: "Equipamiento/Progreso", file: "advancednetherite-neoforge-2.3.1-1.21.1.jar" },
+            { name: "Advancement Frames Layout", type: "compartido", subcat: "Decoración", file: "advancementframes-1.21-2.2.10-neoforge.jar" },
+            { name: "Amendments Overhaul", type: "compartido", subcat: "Mundo/Ambiente", file: "amendments-1.21-2.0.15-neoforge.jar" },
+            { name: "Archers Class RPG", type: "compartido", subcat: "Equipamiento/Armas", file: "archers-neoforge-2.7.0+1.21.1.jar" },
+            { name: "Archers Expansion Module", type: "compartido", subcat: "Equipamiento/Armas", file: "archers_expansion-neoforge-1.5.1+1.21.1.jar" },
+            { name: "Architectury Engine API", type: "compartido", subcat: "Librería de Ejecución", file: "architectury-13.0.8-neoforge.jar" },
+            { name: "Arsenal Combat Addon", type: "compartido", subcat: "Equipamiento/Armas", file: "arsenal-neoforge-1.4.2+1.21.1.jar" },
+            { name: "Automobility (Karts Engine)", type: "compartido", subcat: "Transporte/Vehículos", file: "automobility-0.5.0.h+1.21.1-neoforge.jar" },
+            { name: "AzureLib Animation System", type: "compartido", subcat: "Librería de Ejecución", file: "azurelib-neo-1.21.1-3.1.8.jar" },
+            { name: "AzureLib Armor Extender", type: "compartido", subcat: "Librería de Ejecución", file: "azurelibarmor-neo-1.21.1-3.1.3.jar" },
+            { name: "Balm Utility Library", type: "compartido", subcat: "Librería de Ejecución", file: "balm-neoforge-1.21.1-21.0.58.jar" },
+            { name: "Create Bells and Whistles", type: "compartido", subcat: "Decoración", file: "bellsandwhistles-0.4.7-1.21.1.jar" },
+            { name: "Better Archeology", type: "compartido", subcat: "Exploración", file: "betterarcheology-neoforge-1.21.1-1.3.4.jar" },
+            { name: "Better Combat System", type: "compartido", subcat: "Combate Renovado", file: "bettercombat-neoforge-2.3.2+1.21.1.jar" },
+            { name: "Biolith Engine API", type: "compartido", subcat: "Librería de Ejecución", file: "biolith-neoforge-3.0.11.jar" },
+            { name: "Block Factory's Bosses", type: "compartido", subcat: "Criaturas/Jefes", file: "block_factorys_bosses-2.1.2-neo-1.21.1.jar" },
+            { name: "Bookshelf Library API", type: "compartido", subcat: "Librería de Ejecución", file: "bookshelf-neoforge-1.21.1-21.1.81.jar" },
+            { name: "Born in Chaos Monsters", type: "compartido", subcat: "Aventura/Dificultad", file: "born_in_chaos_[Neoforge]_1.21.1_1.7.5.jar" },
+            { name: "Bundle Vanilla API", type: "compartido", subcat: "Librería de Ejecución", file: "bundle-api-neoforge-1.1.0.jar" },
+            { name: "Camera Functional Mod", type: "compartido", subcat: "Exploración/Útiles", file: "camera-neoforge-1.21.1-1.0.21.jar" },
+            { name: "Camping Gear Mod", type: "compartido", subcat: "Exploración/Útiles", file: "camping-neoforge-1.21.1-2.1.4.jar" },
+            { name: "Cloth Config API Core", type: "compartido", subcat: "Librería de Ejecución", file: "cloth-config-15.0.140-neoforge.jar" },
+            { name: "Cobweb Mechanics Framework", type: "compartido", subcat: "Librería de Ejecución", file: "cobweb-neoforge-1.21-1.4.0.jar" },
+            { name: "Create Copycats Blocks", type: "compartido", subcat: "Decoración", file: "copycats-3.0.4+mc.1.21.1-neoforge.jar" },
+            { name: "Corn Food Expansion", type: "compartido", subcat: "Gastronomía/Cocina", file: "cornexpansion-neoforge-1.2.4.jar" },
+            { name: "CoroUtil Script Hooks", type: "compartido", subcat: "Librería de Ejecución", file: "coroutil-neoforge-1.21.0-1.3.8.jar" },
+            { name: "Crafting Tweaks Engine", type: "compartido", subcat: "Interfaz/Guías", file: "craftingtweaks-neoforge-1.21.1-21.1.10.jar" },
+            { name: "Create Mod Core Base", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create-1.21.1-6.0.10.jar" },
+            { name: "Create Aeronautics Flight", type: "compartido", subcat: "Tecnología/Aeronaves", file: "create-aeronautics-bundled-1.21.1-1.2.1.jar" },
+            { name: "Create Central Kitchen", type: "compartido", subcat: "Gastronomía/Cocina", file: "create-central-kitchen-2.5.0.jar" },
+            { name: "Create Enchantment Industry", type: "compartido", subcat: "Tecnología/Magia", file: "create-enchantment-industry-2.4.1.jar" },
+            { name: "Create New Age (Electricidad)", type: "compartido", subcat: "Tecnología/Energía", file: "create-new-age-1.2.0+neoforge-mc1.21.1.jar" },
+            { name: "Create Stuff Additions", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create-stuff-additions1.21.1_v2.1.3.jar" },
+            { name: "Create Compatible Storage", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create_compatible_storage-2.11.0-neoforge.jar" },
+            { name: "Create Connected Logic", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create_connected-1.2.2-mc1.21.1.jar" },
+            { name: "Create Copper & Zinc Ore", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create_copper_and_zinc-2.0.0-neoforge-1.21.1.jar" },
+            { name: "Create Jetpacks Module", type: "compartido", subcat: "Tecnología/Movilidad", file: "create_jetpack-forge-5.1.2.jar" },
+            { name: "Create Less Than A Block (LTAB)", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create_ltab-4.0.2.jar" },
+            { name: "Create Oxidized Automation", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create_oxidized-0.1.3.jar" },
+            { name: "Create Pattern Schematics", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create_pattern_schematics-2.0.10.jar" },
+            { name: "Create Power Loader Logistic", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create_power_loader-2.0.5-mc1.21.1.jar" },
+            { name: "Create Things and Misc Addon", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create_things_and_misc-4.1.1-neoforge-1.21.1.jar" },
+            { name: "Create Tweaked Controllers", type: "compartido", subcat: "Tecnología/Mecanismos", file: "create_tweaked_controllers-1.21.1-1.2.7.jar" },
+            { name: "Create Crafts & Additions", type: "compartido", subcat: "Tecnología/Energía", file: "createaddition-1.6.0.jar" },
+            { name: "Create Big Cannons Warfare", type: "compartido", subcat: "Armamento/Defensa", file: "createbigcannons-5.11.6+mc.1.21.1.jar" },
+            { name: "Create Contraption Terminals", type: "compartido", subcat: "Tecnología/Mecanismos", file: "createcontraptionterminals-1.21-1.3.0.jar" },
+            { name: "Create Deco Industrial Pack", type: "compartido", subcat: "Decoración", file: "createdeco-2.1.3.jar" },
+            { name: "Create Diesel Generators", type: "compartido", subcat: "Tecnología/Energía", file: "createdieselgenerators-1.21.1-1.3.13.jar" },
+            { name: "Create Framed Blocks Adapt", type: "compartido", subcat: "Decoración", file: "createframed-1.21.1-1.7.3.jar" },
+            { name: "Create Goggles Overhaul UI", type: "compartido", subcat: "Tecnología/Mecanismos", file: "creategoggles-1.21.1-6.1.1-[NEOFORGE].jar" },
+            { name: "Create Liquid Fuel Processing", type: "compartido", subcat: "Tecnología/Energía", file: "createliquidfuel-2.1.1-1.21.1.jar" },
+            { name: "Create Ore Excavation Drills", type: "compartido", subcat: "Tecnología/Mecanismos", file: "createoreexcavation-1.21-1.6.8.jar" },
+            { name: "Create Railways Navigator", type: "compartido", subcat: "Transporte/Vehículos", file: "createrailwaysnavigator-neoforge-1.21.1-beta-0.9.1-C6.jar" },
+            { name: "Curios API Attachment Slots", type: "compartido", subcat: "Librería de Ejecución", file: "curios-neoforge-9.5.1+1.21.1.jar" },
+            { name: "DecoCraft Design Assets", type: "compartido", subcat: "Decoración", file: "decocraft-3.0.11-1.21.1-neoforge.jar" },
+            { name: "DragonLib Dependency Core", type: "compartido", subcat: "Librería de Ejecución", file: "dragonlib-neoforge-1.21.1-beta-3.0.28.jar" },
+            { name: "Dynamic Trees: BOP Bridge", type: "compartido", subcat: "Mundo/Ambiente", file: "dtbop-3.4.0.jar" },
+            { name: "MmmMmmMmmMmm Target Dummy", type: "compartido", subcat: "Exploración/Útiles", file: "dummmmmmy-1.21-2.0.12-neoforge.jar" },
+            { name: "Dynamic Trees Real Felling", type: "compartido", subcat: "Mundo/Ambiente", file: "dynamictrees-neoforge-1.21.1-1.7.2.jar" },
+            { name: "EMI Item Viewer Framework", type: "compartido", subcat: "Interfaz/Guías", file: "emi-1.1.24+1.21.1+neoforge.jar" },
+            { name: "EMI Loot Tables Module", type: "compartido", subcat: "Interfaz/Guías", file: "emi_loot-0.7.9+1.21+neoforge.jar" },
+            { name: "EMI Ores Veins Tracker", type: "compartido", subcat: "Interfaz/Guías", file: "emi_ores-1.2+1.21.1+neoforge.jar" },
+            { name: "Epic Fight x ParCool Combat", type: "compartido", subcat: "Combate Renovado", file: "epic x parcool-neoforge-21.0.0-1.21.1.jar" },
+            { name: "Epic Fight Combat Engine", type: "compartido", subcat: "Combate Renovado", file: "epic-fight-21.17.3.1-mc1.21.1-neoforge.jar" },
+            { name: "Every Compat (Blocks Uniformity)", type: "compartido", subcat: "Decoración", file: "everycomp-1.21-2.11.44-neoforge.jar" },
+            { name: "FerriteCore Memory Saver", type: "compartido", subcat: "Optimización de RAM", file: "ferritecore-7.0.3-neoforge.jar" },
+            { name: "Forgified Fabric API Bridge", type: "compartido", subcat: "Librería de Ejecución", file: "forgified-fabric-api-0.116.7+2.2.4+1.21.1.jar" },
+            { name: "Fusion Connected Textures API", type: "compartido", subcat: "Visual/Estética", file: "fusion-1.2.12-neoforge-mc1.21.1.jar" },
+            { name: "Fzzy Config Architecture", type: "compartido", subcat: "Librería de Ejecución", file: "fzzy_config-0.7.6+1.21+neoforge.jar" },
+            { name: "GeckoLib Advanced Animations", type: "compartido", subcat: "Librería de Ejecución", file: "geckolib-neoforge-1.21.1-4.8.4.jar" },
+            { name: "Goated Armor Stat System", type: "compartido", subcat: "Equipamiento/Progreso", file: "goated-1.21-1.4.3-neoforge.jar" },
+            { name: "Guard Villagers Protection", type: "compartido", subcat: "Criaturas/Jefes", file: "guardvillagers-2.4.9-1.21.1.jar" },
+            { name: "Haunted Harvest Festival", type: "compartido", subcat: "Mundo/Ambiente", file: "hauntedharvest-1.21-3.3.9-neoforge.jar" },
+            { name: "Hexerei (Alquimia y Brujería)", type: "compartido", subcat: "Magia/Alquimia", file: "hexerei-0.5.0.3.jar" },
+            { name: "Ice and Fire: Mythic Dragons", type: "compartido", subcat: "Criaturas/Jefes", file: "iceandfire-2.0-beta.17.jar" },
+            { name: "Immersive Aircraft (Aviones)", type: "compartido", subcat: "Transporte/Vehículos", file: "immersive_aircraft-1.4.6+1.21.1-neoforge.jar" },
+            { name: "Immersive Armors Visuals", type: "compartido", subcat: "Equipamiento/Progreso", file: "immersive_armors-1.7.6+1.21.1-neoforge.jar" },
+            { name: "Immersive Furniture Assets", type: "compartido", subcat: "Decoración", file: "immersive_furniture-neoforge-0.2.2+1.21.1.jar" },
+            { name: "Immersive Gateways Portals", type: "compartido", subcat: "Exploración", file: "immersive_gateways-neoforge-0.0.5.jar" },
+            { name: "Immersive Machinery Automation", type: "compartido", subcat: "Tecnología/Mecanismos", file: "immersive_machinery-0.2.0+1.21.1-neoforge.jar" },
+            { name: "Immersive Melodies Instruments", type: "compartido", subcat: "Inmersión Sonora", file: "immersive_melodies-neoforge-0.6.4+1.21.1.jar" },
+            { name: "Immersive Paintings Art", type: "compartido", subcat: "Decoración", file: "immersive_paintings-neoforge-1.21.1-0.7.8.jar" },
+            { name: "Immersive Messages HUD", type: "compartido", subcat: "Comunicación/Audio", file: "immersivemessages-neoforge-1.0.18-1.21.1.jar" },
+            { name: "Create Interiors Studio", type: "compartido", subcat: "Decoración", file: "interiors-1.21.1-neoforge-0.6.1.jar" },
+            { name: "Just Enough Items (JEI Engine)", type: "compartido", subcat: "Interfaz/Guías", file: "jei-1.21.1-neoforge-19.27.0.340.jar" },
+            { name: "Jewelry RPG Stat Accessories", type: "compartido", subcat: "Equipamiento/Progreso", file: "jewelry-neoforge-2.3.2+1.21.1.jar" },
+            { name: "Jupiter Library Kernel", type: "compartido", subcat: "Librería de Ejecución", file: "jupiter-2.3.7-1.21.1-neoforge.jar" },
+            { name: "Kotlin Language Engine for Forge", type: "compartido", subcat: "Librería de Ejecución", file: "kotlinforforge-5.11.0-all.jar" },
+            { name: "KubeJS Custom Recipes Engine", type: "compartido", subcat: "Librería de Ejecución", file: "kubejs-neoforge-2101.7.2-build.368.jar" },
+            { name: "Labels Informative Markers", type: "compartido", subcat: "Exploración/Útiles", file: "labels-1.21-2.0.3-neoforge.jar" },
+            { name: "Let's Do: Bakery (Panadería)", type: "compartido", subcat: "Gastronomía/Cocina", file: "letsdo-bakery-neoforge-2.1.6.jar" },
+            { name: "Let's Do: Beachparty Resort", type: "compartido", subcat: "Gastronomía/Cocina", file: "letsdo-beachparty-neoforge-2.1.4.jar" },
+            { name: "Let's Do: Blooming Nature Biomes", type: "compartido", subcat: "Biomas/Mundo", file: "letsdo-bloomingnature-neoforge-1.1.10.jar" },
+            { name: "Let's Do: Brewery (Destilería)", type: "compartido", subcat: "Gastronomía/Cocina", file: "letsdo-brewery-neoforge-2.1.9.jar" },
+            { name: "Let's Do: Candlelight Dinners", type: "compartido", subcat: "Gastronomía/Cocina", file: "letsdo-candlelight-neoforge-2.1.12.jar" },
+            { name: "Let's Do: Farm and Charm", type: "compartido", subcat: "Gastronomía/Cocina", file: "letsdo-farm_and_charm-neoforge-1.1.22.jar" },
+            { name: "Let's Do: Furniture Expansion", type: "compartido", subcat: "Decoración", file: "letsdo-furniture-neoforge-1.1.4.jar" },
+            { name: "Let's Do: Herbal Brews Alquimy", type: "compartido", subcat: "Gastronomía/Cocina", file: "letsdo-herbalbrews-neoforge-1.1.3.jar" },
+            { name: "Let's Do: Lili's Lucky Lures Fishing", type: "compartido", subcat: "Gastronomía/Cocina", file: "letsdo-lilis_lucky_lures-neoforge-1.1.3.jar" },
+            { name: "Let's Do: Meadow Husbandry", type: "compartido", subcat: "Biomas/Mundo", file: "letsdo-meadow-neoforge-1.4.8.jar" },
+            { name: "Let's Do: Vinery (Viticultura)", type: "compartido", subcat: "Gastronomía/Cocina", file: "letsdo-vinery-neoforge-1.5.3.jar" },
+            { name: "Let's Do: Wildernature Foraging", type: "compartido", subcat: "Biomas/Mundo", file: "letsdo-wildernature-neoforge-1.1.4.jar" },
+            { name: "Magic Vibe Decorations", type: "compartido", subcat: "Decoración", file: "magic_vibe_decorations-1.0.7-neoforge-1.21.1.jar" },
+            { name: "Man of Many Planes (Vehicles)", type: "compartido", subcat: "Transporte/Vehículos", file: "man_of_many_planes-0.2.1+1.21.1-neoforge.jar" },
+            { name: "Macaw's Bridges Infrastructure", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-bridges-3.1.2-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Structural Doors", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-doors-1.1.5-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Premium Furniture", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-furniture-3.4.1-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Holidays Festivities", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-holidays-1.1.2-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Lights and Illumination", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-lights-1.1.5-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Fences Enclosures", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-fences-1.2.1-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Paths and Walkways", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-paths-1.1.1-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Stairs Architecture", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-stairs-1.0.2-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Windows Framework", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-windows-2.4.2-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Paintings Custom Galery", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-paintings-1.1.0-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Advanced Roofs", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-roofs-2.3.2-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Trapdoors Utility", type: "compartido", subcat: "Decoración/Mundo", file: "mcw-trapdoors-1.1.5-mc1.21.1neoforge.jar" },
+            { name: "Macaw's Biomes O' Plenty Bridge", type: "compartido", subcat: "Decoración/Mundo", file: "mcwbiomesoplenty-neoforge-1.21.1-1.5.jar" },
+            { name: "ModernDeco Styling Pack", type: "compartido", subcat: "Decoración", file: "moderndeco-4.0.2-neoforge-1.21.1.jar" },
+            { name: "ModernFix Kernel patches", type: "compartido", subcat: "Optimización Core", file: "modernfix-neoforge-5.27.12+mc1.21.1.jar" },
+            { name: "Moonlight Scripting Library", type: "compartido", subcat: "Librería de Ejecución", file: "moonlight-neoforge-1.21.1-3.0.17.jar" },
+            { name: "More RPG Mechanics Library", type: "compartido", subcat: "Librería de Ejecución", file: "more_rpg_library-neoforge-2.5.30+1.21.1.jar" },
+            { name: "Mowzie's Legendary Mobs", type: "compartido", subcat: "Criaturas/Jefes", file: "mowziesmobs-1.21.1-1.8.2.jar" },
+            { name: "Moyai Cult Statues", type: "compartido", subcat: "Decoración", file: "moyai-1.21-2.1.7-neoforge.jar" },
+            { name: "Minecolonies Research Utility", type: "compartido", subcat: "Librería de Ejecución", file: "mru-1.0.19+LTS+1.21.1+neoforge.jar" },
+            { name: "Mystical Oak Tree Gen", type: "compartido", subcat: "Biomas/Mundo", file: "mysticaloaktree-1.21-1.14-neoforge.jar" },
+            { name: "Nyf's Spiders Fluid Animation", type: "compartido", subcat: "Visual/Estética", file: "nyfsspiders-neoforge-1.21.1-3.0.1.jar" },
+            { name: "oωo-lib Engine Wrapper", type: "compartido", subcat: "Librería de Ejecución", file: "owo-lib-neoforge-0.12.15.5-beta.1+1.21.jar" },
+            { name: "Paladins Class RPG Expansion", type: "compartido", subcat: "Equipamiento/Armas", file: "paladins-neoforge-2.7.1+1.21.1.jar" },
+            { name: "Player Animation Lib Hooks", type: "compartido", subcat: "Librería de Ejecución", file: "player-animation-lib-forge-2.0.4+1.21.1.jar" },
+            { name: "Player Trading Secure System", type: "compartido", subcat: "Integración Social", file: "playertrade-1.21.1-b.jar" },
+            { name: "Vic's Point Blank (Armas Modernas)", type: "compartido", subcat: "Armamento/Defensa", file: "pointblank-neoforge-1.21-1.11.1.jar" },
+            { name: "Prickle Utility Backend", type: "compartido", subcat: "Librería de Ejecución", file: "prickle-neoforge-1.21.1-21.1.11.jar" },
+            { name: "Prometheus Script Pipeline", type: "compartido", subcat: "Librería de Ejecución", file: "prometheus-neoforge-1.21-1.2.5.jar" },
+            { name: "Randomium Ore Mechanics", type: "compartido", subcat: "Exploración", file: "randomium-1.21-1.33.3-neoforge.jar" },
+            { name: "Ranged Weapon Engine API", type: "compartido", subcat: "Librería de Ejecución", file: "ranged_weapon_api-neoforge-2.3.3+1.21.1.jar" },
+            { name: "Realm RPG: Balloons Flight", type: "compartido", subcat: "Decoración", file: "realmrpg_balloons-1.0.0-neoforge-1.21.1.jar" },
+            { name: "Realm RPG: Skeletons Overhaul", type: "compartido", subcat: "Criaturas/Jefes", file: "realmrpg_skeletons-1.1.0-neoforge-1.21.1.jar" },
+            { name: "Rechiseled Block Blueprint", type: "compartido", subcat: "Decoración", file: "rechiseled-1.2.4-neoforge-mc1.21.jar" },
+            { name: "Rechiseled: Create Assembly", type: "compartido", subcat: "Decoración", file: "rechiseledcreate-1.1.0-neoforge-mc1.21.jar" },
+            { name: "Relics RPG Legendary Loot", type: "compartido", subcat: "Equipamiento/Progreso", file: "relics-1.21.1-0.12.8.jar" },
+            { name: "Resourceful Config Engine", type: "compartido", subcat: "Librería de Ejecución", file: "resourcefulconfig-neoforge-1.21-3.0.11.jar" },
+            { name: "Rhino JavaScript Engine Parser", type: "compartido", subcat: "Librería de Ejecución", file: "rhino-2101.2.7-build.85.jar" },
+            { name: "Ritchie's Projectile Vectors Lib", type: "compartido", subcat: "Librería de Ejecución", file: "ritchiesprojectilelib-2.1.2+mc.1.21.1-neoforge.jar" },
+            { name: "Rogues Class RPG Expansion", type: "compartido", subcat: "Equipamiento/Armas", file: "rogues-neoforge-2.7.0+1.21.1.jar" },
+            { name: "Runes Magic Infusion Core", type: "compartido", subcat: "Magia/Alquimia", file: "runes-neoforge-1.2.1+1.21.1.jar" },
+            { name: "Sable Graphics Render Pipeline", type: "compartido", subcat: "Librería de Ejecución", file: "sable-neoforge-1.21.1-1.2.2.jar" },
+            { name: "Selective Bounds Occlusion", type: "compartido", subcat: "Librería de Ejecución", file: "selectivebounds-neoforge-1.21.1-0.0.3.jar" },
+            { name: "Shield API Combat Hooks", type: "compartido", subcat: "Librería de Ejecución", file: "shield_api-neoforge-2.2.0.jar" },
+            { name: "Simply Swords Arsenal", type: "compartido", subcat: "Equipamiento/Armas", file: "simplyswords-neoforge-1.63.0-1.21.1.jar" },
+            { name: "Sleep Tight Bed Mechanics", type: "compartido", subcat: "Mundo/Ambiente", file: "sleep_tight-1.21-1.4.1-neoforge.jar" },
+            { name: "Create: Slice & Dice Automation", type: "compartido", subcat: "Gastronomía/Cocina", file: "sliceanddice-forge-4.2.4.jar" },
+            { name: "Snowy Spirit Winter Festival", type: "compartido", subcat: "Mundo/Ambiente", file: "snowyspirit-neoforge-1.21.1-3.1.7.jar" },
+            { name: "Soul Fire Particles Mod", type: "compartido", subcat: "Visual/Estética", file: "soul-fire-d-neoforge-1.21-6.1.0.jar" },
+            { name: "Sound Physics Remastered (Ecos)", type: "compartido", subcat: "Inmersión Sonora", file: "sound-physics-remastered-neoforge-1.21.1-1.5.1.jar" },
+            { name: "Spark Performance Profiler", type: "compartido", subcat: "Optimización Core", file: "spark-1.10.124-neoforge.jar" },
+            { name: "RPG Spell Engine Runtime", type: "compartido", subcat: "Magia/Alquimia", file: "spell_engine-neoforge-1.9.9+1.21.1.jar" },
+            { name: "Spell Power Damage Matrix", type: "compartido", subcat: "Magia/Alquimia", file: "spell_power-neoforge-1.4.6+1.21.1.jar" },
+            { name: "Structure Pool Injection API", type: "compartido", subcat: "Librería de Ejecución", file: "structure_pool_api-neoforge-1.2.1+1.21.1.jar" },
+            { name: "SuperMartijn642's Config Lib", type: "compartido", subcat: "Librería de Ejecución", file: "supermartijn642configlib-1.1.8-neoforge-mc1.21.jar" },
+            { name: "SuperMartijn642's Core Lib", type: "compartido", subcat: "Librería de Ejecución", file: "supermartijn642corelib-1.1.21-neoforge-mc1.21.jar" },
+            { name: "Create: The Factory Must Grow", type: "compartido", subcat: "Tecnología/Energía", file: "tfmg-1.2.0.jar" },
+            { name: "Tom's Simple Storage Wireless", type: "compartido", subcat: "Exploración/Útiles", file: "toms_storage-1.21-2.3.2.jar" },
+            { name: "Trading Floor Markets System", type: "compartido", subcat: "Integración Social", file: "trading_floor-3.0.16.jar" },
+            { name: "Traveler's Backpack (Mochilas)", type: "compartido", subcat: "Exploración/Útiles", file: "travelersbackpack-neoforge-1.21.1-10.1.36.jar" },
+            { name: "TxniLib Core Layer", type: "compartido", subcat: "Librería de Ejecución", file: "txnilib-neoforge-1.0.24-1.21.1.jar" },
+            { name: "Uranus Core Framework", type: "compartido", subcat: "Librería de Ejecución", file: "uranus-2.4.1-1.21.1-neoforge.jar" },
+            { name: "Simple Voice Chat (Proximidad)", type: "compartido", subcat: "Comunicación/Audio", file: "voicechat-neoforge-1.21.1-2.6.18.jar" },
+            { name: "Warfare Wings Elytra Combat", type: "compartido", subcat: "Movilidad/Físicas", file: "warfare_wings-1.1.4-1.21.1-neoforge.jar" },
+            { name: "What Are They Up To (Watut)", type: "compartido", subcat: "Integración Social", file: "watut-neoforge-1.21.0-1.2.7.jar" },
+            { name: "Waystones (Teletransporte)", type: "compartido", subcat: "Exploración", file: "waystones-neoforge-1.21.1-21.1.34.jar" },
+            { name: "Wizards Class RPG Expansion", type: "compartido", subcat: "Magia/Alquimia", file: "wizards-neoforge-2.7.1+1.21.1.jar" },
+            { name: "Yet Another Config Lib (YACL)", type: "compartido", subcat: "Librería de Ejecución", file: "yet_another_config_lib_v3-3.8.2+1.21.1-neoforge.jar" }
+        ];
+
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        const modGrid = document.getElementById('modGrid');
+        const modSearch = document.getElementById('modSearch');
+
+        // Calcula las métricas globales dinámicamente basándose en la base de datos real
+        function calculateMetrics() {
+            document.getElementById('statTotal').innerText = mods.length;
+            document.getElementById('statClient').innerText = mods.filter(m => m.type === 'cliente').length;
+            document.getElementById('statServer').innerText = mods.filter(m => m.type === 'servidor').length;
+            document.getElementById('statShared').innerText = mods.filter(m => m.type === 'compartido').length;
+        }
+
+        // Variables globales de control de vista
+        let currentView = 'grid';
+
+        function changeView(view) {
+            currentView = view;
+            const modGrid = document.getElementById('modGrid');
+
+            document.getElementById('viewGrid').classList.remove('active');
+            document.getElementById('viewList').classList.remove('active');
+
+            if (view === 'grid') {
+                document.getElementById('viewGrid').classList.add('active');
+                modGrid.classList.remove('list-view');
+            } else {
+                document.getElementById('viewList').classList.add('active');
+                modGrid.classList.add('list-view');
+            }
+        }
+
+        // Sistema dinámico para copiar al portapapeles con feedback visual
+        function copyToClipboard(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = `<i class="fas fa-check"></i>`;
+                btn.classList.add('copied');
+
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('copied');
+                }, 1500);
+            }).catch(err => {
+                console.error('Error al intentar copiar al portapapeles: ', err);
+            });
+        }
+
+        // Función de Renderizado con el LOGO OFICIAL de Modrinth
+        function renderMods() {
+            modGrid.innerHTML = '';
+
+            const filtered = mods.filter(mod => {
+                const matchesCategory = currentCategory === 'all' || mod.type === currentCategory;
+                const matchesSearch = mod.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    mod.file.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                modGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-ghost"></i>
+                        <p>No se encontraron mods que coincidan con los criterios de búsqueda.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(mod => {
+                const card = document.createElement('div');
+                card.className = `mod-card ${mod.type}`;
+
+                let tipoLegible = "Cliente";
+                if (mod.type === "servidor") tipoLegible = "Solo Servidor";
+                if (mod.type === "compartido") tipoLegible = "Compartido";
+
+                // Enlace dinámico codificado para buscar en Modrinth
+                const modrinthSearchUrl = `https://modrinth.com/mods?q=${encodeURIComponent(mod.name)}`;
+
+                card.innerHTML = `
+                    <div class="mod-card-top">
+                        <span class="subcat-badge"><i class="fas fa-tag"></i> ${mod.subcat}</span>
+                        <div class="mod-name">${mod.name}</div>
+                        <div class="mod-meta">
+                            <div class="mod-file-wrapper">
+                                <span class="mod-file"><i class="far fa-file-archive"></i> ${mod.file}</span>
+                                <div class="mod-actions">
+                                    <button class="copy-btn" onclick="copyToClipboard('${mod.file}', this)" title="Copiar nombre exacto del archivo .jar">
+                                        <i class="far fa-copy"></i>
+                                    </button>
+                                    <a href="${modrinthSearchUrl}" target="_blank" class="modrinth-btn" title="Buscar '${mod.name}' en Modrinth">
+                                        <!-- SVG Oficial de Modrinth integrado correctamente -->
+                                        <svg class="modrinth-icon" viewBox="0 0 512 514" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="currentColor" fill-rule="evenodd" d="M503.16 323.56c11.39-42.09 12.16-87.65.04-132.8C466.57 54.23 326.04-26.8 189.33 9.78 83.81 38.02 11.39 128.07.69 230.47h43.3c10.3-83.14 69.75-155.74 155.76-178.76 106.3-28.45 215.38 28.96 253.42 129.67l-42.14 11.27c-19.39-46.85-58.46-81.2-104.73-95.83l-7.74 43.84c36.53 13.47 66.16 43.84 77 84.25 15.8 58.89-13.62 119.23-67 144.26l11.53 42.99c70.16-28.95 112.31-101.86 102.34-177.02l41.98-11.23a210.2 210.2 0 0 1-3.86 84.16z" clip-rule="evenodd"></path>
+                                            <path fill="currentColor" d="M321.99 504.22C185.27 540.8 44.75 459.77 8.11 323.24A257.6 257.6 0 0 1 0 275.46h43.27c1.09 11.91 3.2 23.89 6.41 35.83 3.36 12.51 7.77 24.46 13.11 35.78l38.59-23.15c-3.25-7.5-5.99-15.32-8.17-23.45-24.04-89.6 29.2-181.7 118.92-205.71 17-4.55 34.1-6.32 50.8-5.61L255.19 133c-10.46.05-21.08 1.42-31.66 4.25-66.22 17.73-105.52 85.7-87.78 151.84 1.1 4.07 2.38 8.04 3.84 11.9l49.35-29.61-14.87-39.43 46.6-47.87 58.9-12.69 17.05 20.99-27.15 27.5-23.68 7.45-16.92 17.39 8.29 23.07s16.79 17.84 16.82 17.85l23.72-6.31 16.88-18.54 36.86-11.67 10.98 24.7-38.03 46.63-63.73 20.18-28.58-31.82-49.82 29.89c25.54 29.08 63.94 45.23 103.75 41.86l11.53 42.99c-59.41 7.86-117.44-16.73-153.49-61.91l-38.41 23.04c50.61 66.49 138.2 99.43 223.97 76.48 61.74-16.52 109.79-58.6 135.81-111.78l42.64 15.5c-30.89 66.28-89.84 118.94-166.07 139.34"></path>
+                                        </svg>
+                                        Modrinth
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mod-card-bottom">
+                        <span class="tag tag-${mod.type}">${tipoLegible}</span>
+                    </div>
+                `;
+                modGrid.appendChild(card);
+            });
+        }
+
+        // Manejo del cambio de pestañas de filtrado
+        function filterCategory(cat) {
+            currentCategory = cat;
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.classList.add('active');
+                }
+            });
+
+            renderMods();
+        }
+
+        // Listener en tiempo real para el cuadro de búsqueda inteligente
+        modSearch.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderMods();
+        });
+
+        // Orquestación Inicial al cargar la ventana
+        window.onload = () => {
+            calculateMetrics();
+            renderMods();
+        };
+    </script>
+</body>
+
+</html>
