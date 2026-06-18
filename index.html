@@ -1,633 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaliCraft Network | El servidor más caleño de Minecraft</title>
-    <style>
-        /* Variables de entorno para cambiar colores fácilmente */
-        :root {
-            --bg-principal: #111215;
-            --bg-navbar: #1A1C23; /* rgb(26, 28, 35) */
-            --verde-minecraft: #47721e;
-            --verde-hover: #5c9327;
-            --texto-blanco: #ffffff;
-            --texto-gris: #b9bbbe;
-            --alerta-color: #d97706; /* Color ámbar para advertencias visuales */
-            --discord-color: #5865F2;
-        }
-
-        /* Desplazamiento suave para toda la página */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-principal);
-            color: var(--texto-blanco);
-            overflow-x: hidden;
-            
-            /* Fondo para toda la página con capa oscura para legibilidad */
-            background-image: linear-gradient(rgba(17, 18, 21, 0.6)), url('https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/fondo.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Hace que el fondo se quede fijo al hacer scroll */
-        }
-
-        /* --- NAVBAR CENTRADA ESTILO PROFESIONAL --- */
-        .navbar {
-            background-color: var(--bg-navbar);
-            display: grid;
-            grid-template-columns: 1fr auto 1fr; /* Crea 3 columnas perfectas: izquierda, centro y derecha */
-            align-items: center;
-            padding: 12px 50px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 3px solid #2c2f3a;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            justify-self: start; /* Alinea el logo rigurosamente a la izquierda */
-            text-decoration: none; /* Evita líneas raras por ser etiqueta <a> */
-        }
-
-        .nav-logo .nav-icon {
-            height: 40px;
-            border-radius: 4px;
-            vertical-align: middle;
-        }
-
-        .nav-logo .nav-title {
-            height: 25px; 
-            vertical-align: middle;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-            justify-self: center; /* Centrado absoluto en el medio de la pantalla */
-        }
-
-        .nav-links a {
-            color: var(--texto-gris);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--texto-blanco);
-        }
-
-        .nav-auth {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            justify-self: end; /* Alinea el contenedor rigurosamente a la derecha */
-        }
-
-        /* Badge de Próximamente al lado del botón de cuenta */
-        .proximamente-badge {
-            background-color: var(--alerta-color);
-            color: #111215;
-            font-size: 11px;
-            font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-
-        .nav-auth .btn-cuenta {
-            background-color: #33363f;
-            color: #72767d;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            margin-top: 80px;
-            min-height: calc(100vh - 80px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .hero-logo {
-            max-width: 1080px; 
-            width: 110%; 
-            margin-bottom: 40px;
-            filter: drop-shadow(0px 8px 16px rgba(0,0,0,0.85)); 
-        }
-
-        .hero-subtitle {
-            font-size: 22px; 
-            color: var(--texto-gris);
-            margin-bottom: 40px;
-            max-width: 720px; 
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.9);
-        }
-
-        /* --- BOTÓN DE DESCARGA --- */
-        .download-container {
-            position: relative;
-            width: 320px;
-            height: 85px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .download-container:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
-        }
-
-        .download-btn {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            background-color: var(--verde-minecraft);
-            border: 2px solid #5c9327;
-            border-radius: 12px;
-            color: white;
-            text-decoration: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            transition: background-color 0.2s ease;
-        }
-
-        .download-container:hover .download-btn {
-            background-color: var(--verde-hover);
-        }
-
-        .download-btn span {
-            display: block;
-            font-size: 12px;
-            color: #e0e0e0;
-            font-weight: normal;
-            text-transform: none;
-            margin-top: 4px;
-        }
-
-        .btn-content {
-            text-align: center;
-        }
-
-        /* --- ESTILOS CUANDO EL BOTÓN ESTÁ DESHABILITADO --- */
-        .download-container.disabled {
-            transform: none !important;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4) !important;
-            cursor: not-allowed; /* Muestra el símbolo de prohibido */
-        }
-
-        .download-container.disabled .download-btn {
-            background-color: #2c2e35 !important; /* Gris oscuro apagado */
-            border-color: #3e414b !important;
-            color: #595d66 !important; /* Texto gris atenuado */
-            text-shadow: none !important;
-            pointer-events: none; /* Bloquea clics y comportamientos de enlace */
-        }
-
-        .download-container.disabled .download-btn span {
-            color: var(--alerta-color) !important; /* Resalta el estado en color ámbar */
-            font-weight: 600;
-        }
-
-
-        /* --- DESCRIPCIÓN / AVISO DE ARCHIVO (DISCLAIMER) --- */
-        .download-disclaimer {
-            margin-top: 25px;
-            font-size: 13px;
-            color: var(--texto-gris);
-            max-width: 520px;
-            line-height: 1.5;
-            text-align: left;
-            background-color: rgba(26, 28, 35, 0.8);
-            padding: 14px 18px;
-            border-radius: 8px;
-            border-left: 4px solid var(--alerta-color);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-        }
-
-        .download-disclaimer strong {
-            color: var(--texto-blanco);
-        }
-
-        /* --- ESTRUCTURA GENERAL DE SECCIONES --- */
-        .seccion-pagina {
-            padding: 90px 20px 80px 20px;
-            width: 100%;
-            scroll-margin-top: 80px; /* Evita que la navbar fija tape el título */
-        }
-
-        /* Variación de fondo sólido para alternar */
-        .seccion-solida {
-            background-color: var(--bg-navbar); /* rgb(26, 28, 35) */
-        }
-
-        .contenido-ancho {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .titulo-seccion {
-            font-size: 32px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-        }
-
-        .titulo-seccion::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background-color: var(--verde-minecraft);
-            margin: 10px auto 0 auto;
-            border-radius: 2px;
-        }
-
-        /* --- ESTILOS: CONOCE LA NETWORK --- */
-        .grid-caracteristicas {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-        }
-
-        .tarjeta-caracteristica {
-            background-color: rgba(17, 18, 21, 0.7);
-            border: 2px solid #2c2f3a;
-            border-radius: 10px;
-            padding: 25px;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .tarjeta-caracteristica:hover {
-            transform: translateY(-5px);
-            border-color: var(--verde-minecraft);
-        }
-
-        /* Resaltar la tarjeta del hosting casero */
-        .tarjeta-destacada-hosting {
-            border-color: rgba(217, 119, 6, 0.4);
-        }
-        .tarjeta-destacada-hosting:hover {
-            border-color: var(--alerta-color);
-        }
-
-        .tarjeta-caracteristica h3 {
-            font-size: 20px;
-            margin-bottom: 12px;
-            color: #ffffff;
-        }
-
-        .tarjeta-caracteristica p {
-            font-size: 15px;
-            color: var(--texto-gris);
-            line-height: 1.6;
-        }
-
-        /* --- SUBSECCIÓN NUEVA: MODOS DE JUEGO --- */
-        .subtitulo-subseccion {
-            font-size: 24px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 65px;
-            margin-bottom: 35px;
-            text-align: center;
-            color: #ffffff;
-        }
-
-        .grid-modos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 25px;
-            justify-content: center;
-        }
-
-        .tarjeta-modo {
-            background-color: rgba(17, 18, 21, 0.5);
-            border: 2px solid #2c2f3a;
-            border-radius: 12px;
-            padding: 25px 20px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tarjeta-modo:hover {
-            transform: translateY(-4px);
-            border-color: var(--verde-minecraft);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .tarjeta-modo img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover; /* Asegura un encaje perfecto y cuadrado sin distorsión */
-            border-radius: 8px;
-            margin-bottom: 15px;
-            background-color: rgba(26, 28, 35, 0.6);
-            border: 1px solid #3a3f4d;
-        }
-
-        .tarjeta-modo h4 {
-            font-size: 19px;
-            color: #ffffff;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .tarjeta-modo p {
-            font-size: 14px;
-            color: var(--texto-gris);
-            line-height: 1.5;
-        }
-
-        /* Modos inactivos o próximamente con opacidad reducida */
-        .tarjeta-modo.modo-bloqueado {
-            opacity: 0.55;
-            border-color: #21232b;
-        }
-
-        .tarjeta-modo.modo-bloqueado:hover {
-            opacity: 0.85;
-            border-color: #4a4e5a;
-        }
-
-        /* Pequeñas etiquetas dentro de los modos */
-        .badge-modo {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            font-size: 10px;
-            font-weight: bold;
-            padding: 3px 7px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .badge-proximamente {
-            background-color: #33363f;
-            color: var(--texto-gris);
-        }
-
-        .badge-evento {
-            background-color: #a855f7; /* Color púrpura / compartido */
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(168, 85, 247, 0.4);
-        }
-
-        /* --- ESTILOS: SECCIÓN DISCORD (FONDO TRANSPARENTE CON WALLPAPER) --- */
-        .contenedor-discord {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 50px;
-            background-color: rgba(26, 28, 35, 0.75);
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid #2c2f3a;
-        }
-
-        .info-discord {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .info-discord h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .info-discord p {
-            color: var(--texto-gris);
-            line-height: 1.6;
-            margin-bottom: 25px;
-            font-size: 16px;
-        }
-
-        .btn-discord-comunidad {
-            display: inline-block;
-            background-color: var(--discord-color);
-            color: white;
-            text-decoration: none;
-            padding: 12px 24px;
-            font-weight: bold;
-            border-radius: 6px;
-            transition: background-color 0.2s ease, transform 0.2s ease;
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
-        }
-
-        .btn-discord-comunidad:hover {
-            background-color: #4752c4;
-            transform: translateY(-2px);
-        }
-
-        .widget-discord-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .widget-discord-container iframe {
-            border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        }
-
-        /* --- ESTILOS: SECCIÓN TIENDA (NUEVA CON OVERLAY) --- */
-        .wrapper-tienda-bloqueada {
-            position: relative;
-            padding: 20px 10px;
-        }
-
-        /* Capa borrosa que bloquea la tienda */
-        .tienda-overlay-bloqueo {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(26, 28, 35, 0.5);
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(5px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            border-radius: 12px;
-        }
-
-        /* Caja contenedora del texto Próximamente */
-        .shadowbox-proximamente {
-            background-color: #111215;
-            color: var(--alerta-color);
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            padding: 20px 50px;
-            border-radius: 8px;
-            border: 2px solid var(--alerta-color);
-            text-transform: uppercase;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 15px rgba(219, 119, 6, 0.2);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .grid-tienda {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            /* Se le baja un poco la opacidad a lo de atrás para dar más sensación de inactivo */
-            opacity: 0.4; 
-        }
-
-        .tarjeta-producto {
-            background: rgba(17, 18, 21, 0.8);
-            border: 2px solid #2c2f3a;
-            border-radius: 12px;
-            padding: 35px 25px;
-            width: 320px;
-            text-align: center;
-        }
-
-        .tarjeta-producto h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .tarjeta-producto .precio {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--alerta-color);
-            margin-bottom: 20px;
-        }
-
-        .tarjeta-producto ul {
-            list-style: none;
-            text-align: left;
-            margin-bottom: 30px;
-            color: var(--texto-gris);
-            font-size: 14px;
-        }
-
-        .tarjeta-producto ul li {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tarjeta-producto ul li::before {
-            content: '✔';
-            color: var(--verde-hover);
-            font-weight: bold;
-        }
-
-        /* --- ESTILOS: SECCIÓN DONACIONES (QR AMPLIADO) --- */
-        .contenedor-donaciones-qr {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
-
-        .tarjeta-nequi-qr {
-            background: rgba(26, 28, 35, 0.85);
-            border: 2px solid #2c2f3a;
-            border-radius: 16px;
-            padding: 40px; /* Un poco más de espacio interno */
-            max-width: 900px; /* ¡Aumentado de 650px a 900px para maximizar el QR en escritorio! */
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-        }
-
-        .tarjeta-nequi-qr h3 {
-            font-size: 26px; /* Ajuste sutil de tamaño por proporción */
-            margin-bottom: 12px;
-            color: #ffffff;
-        }
-
-        .tarjeta-nequi-qr p {
-            font-size: 16px;
-            color: var(--texto-gris);
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        /* Contenedor Responsivo manteniendo Proporción Exacta 16:9 */
-        .aspecto-16-9-box {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* Proporción exacta de 16:9 (1440 / 2560 = 0.5625) */
-            background-color: #111215;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #3a3f4d;
-        }
-
-        .qr-imagen-render {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Mantiene la máxima nitidez y encaje sin estirar la imagen */
-            image-rendering: -webkit-optimize-contrast; /* Optimización de nitidez para códigos QR */
-            image-rendering: crisp-edges;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
 
     <nav class="navbar">
         <a href="#" class="nav-logo">
-            <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/icono.png" alt="CaliCraft Icono" class="nav-icon">
-            <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/titulo.png" alt="CaliCraft Título" class="nav-title">
+            <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/icono.png"
+                alt="CaliCraft Icono" class="nav-icon">
+            <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/titulo.png"
+                alt="CaliCraft Título" class="nav-title">
         </a>
-        
+
         <ul class="nav-links">
             <li><a href="#conoce">Conoce la Network</a></li>
             <li><a href="#donaciones">Donaciones</a></li>
@@ -643,15 +33,16 @@
     </nav>
 
     <header class="hero">
-        <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/titulo.png" alt="CaliCraft Network" class="hero-logo">
-        
+        <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/titulo.png"
+            alt="CaliCraft Network" class="hero-logo">
+
         <p class="hero-subtitle">
-            Servidor 100% Caleño. Lleno de aventura, con esencia caleña, y una crítica a la violencia cotidiana con un toque de humor.
+            Servidor 100% Caleño. Lleno de aventura, con esencia caleña, y una crítica a la violencia cotidiana con un
+            toque de humor.
         </p>
 
-        <!-- El botón ahora está completamente limpio y visible, manejado por la clase disabled -->
         <div class="download-container disabled">
-            <a href="#" class="download-btn">
+            <a href="#" class="download-btn" id="btn-descarga">
                 <div class="btn-content">
                     Descargar CaliCraft
                     <span>Estado: Próximamente (En desarrollo)</span>
@@ -660,61 +51,77 @@
         </div>
 
         <div class="download-disclaimer">
-            <strong>Aviso de seguridad:</strong> Al ejecutar el instalador, es posible que tu navegador o Windows SmartScreen muestren una alerta de "archivo riesgoso". Esto ocurre únicamente porque no contamos con los recursos para adquirir una costosa firma digital de software. ¡Garantizamos que el ejecutable es 100% seguro, limpio y libre de virus!
+            <strong>Aviso de seguridad:</strong> Al ejecutar el instalador, es posible que tu navegador o Windows
+            SmartScreen muestren una alerta de "archivo riesgoso". Esto ocurre únicamente porque no contamos con los
+            recursos para adquirir una costosa firma digital de software. ¡Garantizamos que el ejecutable es 100%
+            seguro, limpio y libre de virus!
         </div>
     </header>
 
     <section id="conoce" class="seccion-pagina seccion-solida">
         <div class="contenido-ancho">
             <h2 class="titulo-seccion">Conoce la Network</h2>
-            
+
             <div class="grid-caracteristicas">
                 <div class="tarjeta-caracteristica tarjeta-destacada-hosting">
                     <h3>Hosting Casero e Independiente</h3>
-                    <p>CaliCraft está montado directamente desde un PC local. Al no depender de costosas empresas de hosting externas, el rendimiento y la energía de este proyecto se sostienen exclusivamente gracias al apoyo de la comunidad.</p>
+                    <p>CaliCraft está montado directamente desde un PC local. Al no depender de costosas empresas de
+                        hosting externas, el rendimiento y la energía de este proyecto se sostienen exclusivamente
+                        gracias al apoyo de la comunidad.</p>
                 </div>
                 <div class="tarjeta-caracteristica">
                     <h3>Esencia 100% Caleña</h3>
-                    <p>Explora un entorno diseñado con referencias culturales únicas, mapeados inspirados y un toque de sátira y humor que critica de manera constructiva nuestra realidad cotidiana.</p>
+                    <p>Explora un entorno diseñado con referencias culturales únicas, mapeados inspirados y un toque de
+                        sátira y humor que critica de manera constructiva nuestra reality cotidiana.</p>
                 </div>
                 <div class="tarjeta-caracteristica">
                     <h3>Aventura Personalizada</h3>
-                    <p>Una integración de mods balanceada y única para garantizar fluidez, misiones interesantes, y una progresión que te mantendrá enganchado con tus amigos.</p>
+                    <p>Una integración de mods balanceada y única para garantizar fluidez, misiones interesantes, y una
+                        progresión que te mantendrá enganchado con tus amigos.</p>
                 </div>
                 <div class="tarjeta-caracteristica">
                     <h3>Rendimiento Optimizado</h3>
-                    <p>Olvídate del lag pesado. Our servidor e instalador están optimizados meticulosamente para equilibrar la carga visual y el procesamiento lógico del juego.</p>
+                    <p>Olvídate del lag pesado. Nuestro servidor e instalador están optimizados meticulosamente para
+                        equilibrar la carga visual y el procesamiento lógico del juego.</p>
                 </div>
             </div>
 
             <h3 class="subtitulo-subseccion">Nuestros Modos de Juego</h3>
             <div class="grid-modos">
-                
+
                 <div class="tarjeta-modo">
-                    <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/survival.png" alt="Icono Survival">
+                    <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/survival.png"
+                        alt="Icono Survival">
                     <h4>Survival</h4>
-                    <p>Explora, construye, crea tu facción/clan y progresa en una economía equilibrada. El núcleo principal de nuestra experiencia.</p>
+                    <p>Explora, construye, crea tu facción/clan y progresa en una economía equilibrada. El núcleo
+                        principal de nuestra experiencia.</p>
                 </div>
 
                 <div class="tarjeta-modo modo-bloqueado">
                     <span class="badge-modo badge-proximamente">Próximamente</span>
-                    <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/creativo.png" alt="Icono Creativo">
+                    <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/creativo.png"
+                        alt="Icono Creativo">
                     <h4>Creativo</h4>
-                    <p>Un espacio libre de restricciones para construir megaestructuras y parcelas personalizadas con tus amigos.</p>
+                    <p>Un espacio libre de restricciones para construir megaestructuras y parcelas personalizadas con
+                        tus amigos.</p>
                 </div>
 
                 <div class="tarjeta-modo modo-bloqueado">
                     <span class="badge-modo badge-proximamente">Próximamente</span>
-                    <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/anarquico.png" alt="Icono Anárquico">
+                    <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/anarquico.png"
+                        alt="Icono Anárquico">
                     <h4>Anárquico</h4>
-                    <p>PVP salvaje, sin normas, sin reclamos de terreno y destrucción libre. Supervivencia pura bajo la ley del más fuerte.</p>
+                    <p>PVP salvaje, sin normas, sin reclamos de terreno y destrucción libre. Supervivencia pura bajo la
+                        ley del más fuerte.</p>
                 </div>
 
                 <div class="tarjeta-modo">
                     <span class="badge-modo badge-evento">Especial</span>
-                    <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/eventos.png" alt="Icono Eventos">
+                    <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/eventos.png"
+                        alt="Icono Eventos">
                     <h4>Eventos</h4>
-                    <p>Este modo no se mantiene encendido de forma permanente. Abre exclusivamente en fechas especiales para eventos.</p>
+                    <p>Este modo no se mantiene encendido de forma permanente. Abre exclusivamente en fechas especiales
+                        para eventos.</p>
                 </div>
 
             </div>
@@ -725,14 +132,17 @@
     <section id="donaciones" class="seccion-pagina">
         <div class="contenido-ancho">
             <h2 class="titulo-seccion">Donaciones Nequi</h2>
-            
+
             <div class="contenedor-donaciones-qr">
                 <div class="tarjeta-nequi-qr">
                     <h3>Apoya el Servidor</h3>
-                    <p>Cada grano de arena ayuda directamente a pagar el consumo de luz, el internet y las mejoras del PC donde se aloja CaliCraft de manera casera. ¡Puedes escanear este código QR directamente desde tu aplicación de Nequi!</p>
-                    
+                    <p>Cada grano de arena ayuda directamente a pagar el consumo de luz, el internet y las mejoras del
+                        PC donde se aloja CaliCraft de manera casera. ¡Puedes escanear este código QR directamente desde
+                        tu aplicación de Nequi!</p>
+
                     <div class="aspecto-16-9-box">
-                        <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/Nequi.png" alt="Código QR Nequi CaliCraft" class="qr-imagen-render">
+                        <img src="https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/Nequi.png"
+                            alt="Código QR Nequi CaliCraft" class="qr-imagen-render">
                     </div>
                 </div>
             </div>
@@ -745,11 +155,16 @@
             <div class="contenedor-discord">
                 <div class="info-discord">
                     <h3>Llegate al pedazo</h3>
-                    <p>Entra a nuestro servidor oficial de Discord para enterarte de las últimas novedades, encontrar canales de voz dedicados, reportar errores de la versión de prueba y compartir con toda la comunidad del servidor.</p>
-                    <a href="https://discord.gg/UsMw4kyWVh" target="_blank" class="btn-discord-comunidad">Unirse al Servidor</a>
+                    <p>Entra a nuestro servidor oficial de Discord para enterarte de las últimas novedades, encontrar
+                        canales de voz dedicados, reportar errores de la versión de prueba y compartir con toda la
+                        comunidad del servidor.</p>
+                    <a href="https://discord.gg/UsMw4kyWVh" target="_blank" class="btn-discord-comunidad">Unirse al
+                        Servidor</a>
                 </div>
                 <div class="widget-discord-container">
-                    <iframe src="https://discord.com/widget?id=1079208936533663754&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                    <iframe src="https://discord.com/widget?id=1079208936533663754&theme=dark" width="350" height="500"
+                        allowtransparency="true" frameborder="0"
+                        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
                 </div>
             </div>
         </div>
@@ -758,7 +173,7 @@
     <section id="tienda" class="seccion-pagina">
         <div class="contenido-ancho">
             <h2 class="titulo-seccion">Tienda Virtual</h2>
-            
+
             <div class="wrapper-tienda-bloqueada">
                 <div class="tienda-overlay-bloqueo">
                     <div class="shadowbox-proximamente">Próximamente...</div>
@@ -789,4 +204,5 @@
     </section>
 
 </body>
+
 </html>

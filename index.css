@@ -1,0 +1,682 @@
+/* ==========================================================================
+   CALICRAFT NETWORK - HOJA DE ESTILOS PRINCIPAL
+   Organizada por Módulos, con Formato Estandarizado y Buenas Prácticas CSS.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. VARIABLES DE ENTORNO Y PALETA DE COLORES (:root)
+   -------------------------------------------------------------------------- */
+:root {
+    /* Fondos */
+    --bg-principal: #111215;
+    --bg-navbar: #1A1C23; /* rgb(26, 28, 35) */
+    --bg-tarjeta: rgba(17, 18, 21, 0.7);
+    --bg-tarjeta-modo: rgba(17, 18, 21, 0.5);
+    --bg-disclaimer: rgba(26, 28, 35, 0.8);
+    
+    /* Colores de Marca */
+    --verde-minecraft: #47721e;
+    --verde-hover: #5c9327;
+    --discord-color: #5865F2;
+    --discord-hover: #4752c4;
+    --alerta-color: #d97706; /* Ámbar para advertencias visuales y destaques */
+    --evento-color: #a855f7;  /* Púrpura para eventos especiales */
+
+    /* Tipografía y Estados */
+    --texto-blanco: #ffffff;
+    --texto-gris: #b9bbbe;
+    --border-color: #2c2f3a;
+    --border-light: #3a3f4d;
+}
+
+/* --------------------------------------------------------------------------
+   2. REINICIO (RESET) Y ESTILOS BASE GLOBAL
+   -------------------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-principal);
+    background-image: linear-gradient(rgba(17, 18, 21, 0.6), rgba(17, 18, 21, 0.6)), 
+                      url('https://raw.githubusercontent.com/L3DXZM4/CaliCraftNetworkFiles/refs/heads/main/RecursosWeb/fondo.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--texto-blanco);
+    overflow-x: hidden;
+    
+    /* Suavizado de tipografías premium */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   3. ESTRUCTURA GENERAL DE SECCIONES (LAYOUT)
+   -------------------------------------------------------------------------- */
+.seccion-pagina {
+    width: 100%;
+    padding: 90px 20px 80px 20px;
+    scroll-margin-top: 80px; /* Evita que la navbar fija oculte los títulos al scrollear */
+}
+
+.seccion-solida {
+    background-color: var(--bg-navbar);
+}
+
+.contenido-ancho {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.titulo-seccion {
+    position: relative;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+}
+
+.titulo-seccion::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--verde-minecraft);
+    margin: 10px auto 0 auto;
+    border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   4. COMPONENTE: NAVBAR CENTRADA ESTILO PROFESIONAL
+   -------------------------------------------------------------------------- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1000;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* Izquierda, Centro y Derecha simétricos */
+    align-items: center;
+    padding: 0 50px;
+    background-color: var(--bg-navbar);
+    border-bottom: 3px solid var(--border-color);
+}
+
+/* Logo (Izquierda) */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-self: start;
+    text-decoration: none;
+}
+
+.nav-logo .nav-icon {
+    height: 40px;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.nav-logo .nav-title {
+    height: 25px;
+    vertical-align: middle;
+}
+
+/* Enlaces de Navegación (Centro) */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    justify-self: center;
+}
+
+.nav-links a {
+    color: var(--texto-gris);
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--texto-blanco);
+}
+
+/* Autenticación y Cuentas (Derecha) */
+.nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-self: end;
+}
+
+.proximamente-badge {
+    background-color: var(--alerta-color);
+    color: #111215;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.nav-auth .btn-cuenta {
+    background-color: #33363f;
+    color: #72767d;
+    font-weight: bold;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* --------------------------------------------------------------------------
+   5. COMPONENTE: HERO SECTION
+   -------------------------------------------------------------------------- */
+.hero {
+    margin-top: 80px;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.hero-logo {
+    width: 100%;
+    max-width: 1080px;
+    margin-bottom: 40px;
+    filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.85));
+}
+
+.hero-subtitle {
+    max-width: 720px;
+    font-size: 22px;
+    color: var(--texto-gris);
+    margin-bottom: 40px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);
+}
+
+/* --------------------------------------------------------------------------
+   6. COMPONENTE: BOTONES Y ACCIONES (DOWNLOAD / DISCLAIMER)
+   -------------------------------------------------------------------------- */
+.download-container {
+    position: relative;
+    width: 320px;
+    height: 85px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.download-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--verde-minecraft);
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    border: 2px solid #5c9327;
+    border-radius: 12px;
+    transition: background-color 0.2s ease;
+}
+
+.download-container:hover .download-btn {
+    background-color: var(--verde-hover);
+}
+
+.download-btn span {
+    display: block;
+    font-size: 12px;
+    color: #e0e0e0;
+    font-weight: normal;
+    text-transform: none;
+    margin-top: 4px;
+}
+
+.btn-content {
+    text-align: center;
+}
+
+/* Estado Deshabilitado */
+.download-container.disabled {
+    transform: none !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4) !important;
+    cursor: not-allowed;
+}
+
+.download-container.disabled .download-btn {
+    background-color: #2c2e35 !important;
+    color: #595d66 !important;
+    border-color: #3e414b !important;
+    text-shadow: none !important;
+    pointer-events: none;
+}
+
+.download-container.disabled .download-btn span {
+    color: var(--alerta-color) !important;
+    font-weight: 600;
+}
+
+/* Bloque Informativo / Aviso Legal */
+.download-disclaimer {
+    max-width: 520px;
+    margin-top: 25px;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: left;
+    background-color: var(--bg-disclaimer);
+    color: var(--texto-gris);
+    border-radius: 8px;
+    border-left: 4px solid var(--alerta-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.download-disclaimer strong {
+    color: var(--texto-blanco);
+}
+
+/* --------------------------------------------------------------------------
+   7. COMPONENTE: TARJETAS Y REJILLAS (GRID CARACTERÍSTICAS Y MODOS)
+   -------------------------------------------------------------------------- */
+/* Submódulo: Características */
+.grid-caracteristicas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.tarjeta-caracteristica {
+    background-color: var(--bg-tarjeta);
+    padding: 25px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.tarjeta-caracteristica:hover {
+    transform: translateY(-5px);
+    border-color: var(--verde-minecraft);
+}
+
+.tarjeta-caracteristica h3 {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.tarjeta-caracteristica p {
+    font-size: 15px;
+    color: var(--texto-gris);
+    line-height: 1.6;
+}
+
+/* Destacados Especiales en Rejilla */
+.tarjeta-destacada-hosting {
+    border-color: rgba(217, 119, 6, 0.4);
+}
+
+.tarjeta-destacada-hosting:hover {
+    border-color: var(--alerta-color);
+}
+
+/* Submódulo: Modos de Juego */
+.subtitulo-subseccion {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 65px;
+    margin-bottom: 35px;
+    color: #ffffff;
+}
+
+.grid-modos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    justify-content: center;
+}
+
+.tarjeta-modo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 25px 20px;
+    background-color: var(--bg-tarjeta-modo);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tarjeta-modo:hover {
+    transform: translateY(-4px);
+    border-color: var(--verde-minecraft);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.tarjeta-modo img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover; /* Evita distorsión en imágenes cuadradas */
+    background-color: rgba(26, 28, 35, 0.6);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.tarjeta-modo h4 {
+    font-size: 19px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.tarjeta-modo p {
+    font-size: 14px;
+    color: var(--texto-gris);
+    line-height: 1.5;
+}
+
+/* Modos Bloqueados / Próximamente */
+.tarjeta-modo.modo-bloqueado {
+    opacity: 0.55;
+    border-color: #21232b;
+}
+
+.tarjeta-modo.modo-bloqueado:hover {
+    opacity: 0.85;
+    border-color: #4a4e5a;
+}
+
+/* Etiquetas (Badges) Internas de Modos */
+.badge-modo {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.badge-proximamente {
+    background-color: #33363f;
+    color: var(--texto-gris);
+}
+
+.badge-evento {
+    background-color: var(--evento-color);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(168, 85, 247, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   8. SECCIONES ESPECÍFICAS (DISCORD, TIENDA CON OVERLAY, DONACIONES)
+   -------------------------------------------------------------------------- */
+/* Comunidad Discord */
+.contenedor-discord {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 40px;
+    background-color: rgba(26, 28, 35, 0.75);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+}
+
+.info-discord {
+    flex: 1;
+    min-width: 300px;
+}
+
+.info-discord h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.info-discord p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--texto-gris);
+    margin-bottom: 25px;
+}
+
+.btn-discord-comunidad {
+    display: inline-block;
+    background-color: var(--discord-color);
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-discord-comunidad:hover {
+    background-color: var(--discord-hover);
+    transform: translateY(-2px);
+}
+
+.widget-discord-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.widget-discord-container iframe {
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Tienda Virtual (Con Overlay de Bloqueo) */
+.wrapper-tienda-bloqueada {
+    position: relative;
+    padding: 20px 10px;
+}
+
+.tienda-overlay-bloqueo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 28, 35, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 12px;
+}
+
+.shadowbox-proximamente {
+    background-color: #111215;
+    color: var(--alerta-color);
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 20px 50px;
+    border: 2px solid var(--alerta-color);
+    border-radius: 8px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 15px rgba(219, 119, 6, 0.2);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.grid-tienda {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    opacity: 0.4; /* Efecto visual atenuado por bloqueo */
+}
+
+.tarjeta-producto {
+    background: rgba(17, 18, 21, 0.8);
+    width: 320px;
+    padding: 35px 25px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.tarjeta-producto h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.tarjeta-producto .precio {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--alerta-color);
+    margin-bottom: 20px;
+}
+
+.tarjeta-producto ul {
+    list-style: none;
+    font-size: 14px;
+    text-align: left;
+    color: var(--texto-gris);
+    margin-bottom: 30px;
+}
+
+.tarjeta-producto ul li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.tarjeta-producto ul li::before {
+    content: '✔';
+    color: var(--verde-hover);
+    font-weight: bold;
+}
+
+/* Soporte y Donaciones (QR Expandido) */
+.contenedor-donaciones-qr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.tarjeta-nequi-qr {
+    width: 100%;
+    max-width: 900px;
+    padding: 40px;
+    text-align: center;
+    background: rgba(26, 28, 35, 0.85);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.tarjeta-nequi-qr h3 {
+    font-size: 26px;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.tarjeta-nequi-qr p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--texto-gris);
+    margin-bottom: 25px;
+}
+
+/* Caja contenedora en Proporción Cinemática Exacta 16:9 */
+.aspecto-16-9-box {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* Relación de aspecto 16:9 (9 / 16 = 0.5625) */
+    background-color: #111215;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.qr-imagen-render {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+    /* Optimización avanzada y máxima nitidez para lectura perfecta de códigos QR */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
+
+/* --------------------------------------------------------------------------
+   9. PERSONALIZACIÓN DE BARRA DE DESPLAZAMIENTO (SCROLLBAR)
+   -------------------------------------------------------------------------- */
+/* Soporte estándar en navegadores modernos */
+html, 
+body {
+    scrollbar-color: #2d3748 var(--bg-navbar);
+}
+
+/* Motores Webkit (Chrome, Safari, Edge, Opera) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-navbar);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-navbar);
+    border: 2px solid #2d3748;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2d3748;
+}
